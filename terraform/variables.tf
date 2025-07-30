@@ -5,5 +5,4 @@ variable "region" {
 variable "key_name" {
   description = "The name of your AWS EC2 Key Pair"
   type        = string
-  default = test
 }
