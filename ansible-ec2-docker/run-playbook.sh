@@ -2,7 +2,7 @@
 
 # Go to terraform directory and get EC2 IP
 cd ../terraform || exit
-EC2_IP=$(terraform output -raw ec2_public_ip)
+EC2_IP=$(terraform -chdir=terraform output -raw ec2_public_ip)
 
 # Go to ansible directory
 cd ../ansible-ec2-docker || exit
