@@ -43,6 +43,7 @@ jobs:
       - name: Create Ansible Inventory
         run: |
           INSTANCE_IP=$(terraform -chdir=terraform output -raw ec2_public_ip)
+<<<<<<< HEAD
           echo "[web]" > ansible-ec2-docker/inventory.ini
           echo "$INSTANCE_IP ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/test.pem" >> ansible-ec2-docker/inventory.ini
           cat ansible-ec2-docker/inventory.ini
@@ -50,3 +51,23 @@ jobs:
       - name: Run Ansible Playbook
         run: |
           ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible-ec2-docker/inventory.ini ansible-ec2-docker/install_docker.yml
+=======
+          echo "[web]" > ansible/inventory.ini
+          echo "$INSTANCE_IP ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/test.pem" >> ansible-ec2-docker/inventory.ini
+          cat ansible-ec2-docker/inventory.ini
+
+      - name: Copy SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ANSIBLE_PRIVATE_KEY }}" > ~/.ssh/test.pem
+          chmod 600 ~/.ssh/test.pem
+
+      - name: Install Ansible
+        run: |
+          sudo apt update
+          sudo apt install -y ansible sshpass
+
+      - name: Run Ansible Playbook
+        run: |
+          ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible-ec2-docker/inventory.ini ansible-ec2-docker/run-playbook.sh
+>>>>>>> a059b66b652aa0779a253cd2ef1bc0a348a68eeb
