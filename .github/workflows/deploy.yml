@@ -49,4 +49,4 @@ jobs:
 
       - name: Run Ansible Playbook
         run: |
-          ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
+          ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible-ec2-docker/inventory.ini ansible-ec2-docker/run-playbook.sh
