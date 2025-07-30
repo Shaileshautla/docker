@@ -1,15 +1,23 @@
 #!/bin/bash
 
-# Go to terraform directory and get EC2 IP
-cd ../terraform || exit
-EC2_IP=$(terraform output -raw ec2_public_ip)
+# Move to the Terraform directory
+cd terraform || exit 1
 
-# Go to ansible directory
-cd ../ansible-ec2-docker || exit
+# Get the EC2 public IP output from Terraform
+INSTANCE_IP=$(terraform output -raw ec2_public_ip)
 
-# Create Ansible inventory file
+# Optional: print IP for debug
+echo "Extracted EC2 IP: $INSTANCE_IP"
+
+# Go to Ansible directory
+cd ../ansible-ec2-docker || exit 1
+
+# Create the inventory file
 echo "[web]" > inventory.ini
-echo "$EC2_IP ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/test.pem" >> inventory.ini
+echo "$INSTANCE_IP ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/test.pem" >> inventory.ini
+
+# Show inventory for confirmation
+cat inventory.ini
 
 # Run the Ansible playbook
 ansible-playbook -i inventory.ini install_docker.yml
