@@ -42,9 +42,21 @@ jobs:
 
       - name: Create Ansible Inventory
         run: |
+          # Capture IP from Terraform output
           INSTANCE_IP=$(terraform -chdir=terraform output -raw ec2_public_ip)
+
+          echo "📡 EC2 Public IP from Terraform: $INSTANCE_IP"
+
+          if [ -z "$INSTANCE_IP" ]; then
+            echo "❌ ERROR: No IP received from Terraform"
+            exit 1
+          fi
+
+          # Create inventory.ini inside ansible-ec2-docker directory
           echo "[web]" > ansible-ec2-docker/inventory.ini
           echo "$INSTANCE_IP ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/test.pem" >> ansible-ec2-docker/inventory.ini
+
+          echo "✅ Inventory file content:"
           cat ansible-ec2-docker/inventory.ini
 
       - name: Run Ansible Playbook
