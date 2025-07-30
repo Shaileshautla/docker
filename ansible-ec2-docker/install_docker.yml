@@ -1,6 +1,6 @@
 ---
 - name: Install Docker on EC2 instance
-  hosts: ec2
+  hosts: web
   become: true
 
   tasks:
