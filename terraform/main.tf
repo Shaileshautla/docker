@@ -57,6 +57,7 @@ resource "aws_instance" "ec2" {
   key_name                    = var.key_name
   subnet_id                   = data.aws_subnet.default.id
   vpc_security_group_ids      = [aws_security_group.allow_ssh_http.id]
+  associate_public_ip_address = true
 
   tags = {
     Name = "Ansible-EC2-Docker"
