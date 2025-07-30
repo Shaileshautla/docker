@@ -22,7 +22,7 @@ data "aws_subnet" "default" {
 
 # Security group allowing SSH (port 22) and optionally HTTP (port 80)
 resource "aws_security_group" "allow_ssh_http" {
-  name        = "allow_ssh_http1"
+  name        = "allow_ssh_http"
   description = "Allow SSH and HTTP"
   vpc_id      = data.aws_vpc.default.id
 
